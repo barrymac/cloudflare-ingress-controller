@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/cloudflare/cloudflare-warp-ingress/pkg/controller"
+	"github.com/cloudflare/cloudflare-warp-ingress/pkg/tunnel"
 	"github.com/cloudflare/cloudflare-warp-ingress/pkg/version"
 	"github.com/golang/glog"
 	"k8s.io/client-go/kubernetes"
@@ -53,6 +54,10 @@ func main() {
 
 	stopCh := make(chan struct{})
 	// defer close(stopCh)
+
+	go func() {
+		tunnel.ServeMetrics(9090, stopCh)
+	}()
 
 	// crude trap Ctrl^C for better cleanup in testing
 	c := make(chan os.Signal, 2)
