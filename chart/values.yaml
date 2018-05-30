@@ -34,4 +34,3 @@ secret:
 
 loadbalancing:
   enabled: false
-
